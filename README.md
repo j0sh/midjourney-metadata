@@ -2,7 +2,7 @@
 
 Never lose track of [Midjourney](http://midjourney.com) prompts again. Embed job parameters as image metadata with this Chrome extension.
 
-![Leprechaun mother and her three children guarding a pot full of gold on the irish seashore. painting by alan maley](https://user-images.githubusercontent.com/292510/235260517-9b288ebb-1d72-4d9a-84ba-cee477b30cf8.png)
+![Leprechaun mother and her three children guarding a pot full of gold on the irish seashore. painting by alan maley](https://user-images.githubusercontent.com/292510/235260517-9b288ebb-1d72-4d9a-84ba-cee477b30cf8.png "Leprechaun mother and her three children guarding a pot full of gold on the irish seashore. painting by alan maley")
 
 
 ### Why? 
