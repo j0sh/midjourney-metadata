@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, emscripten, clang_12, cmake, pkg-config }:
+{ lib, stdenv, fetchurl, emscripten, clang_12, cmake, pkg-config, deno }:
 
 let
   version = "2.5.0";
@@ -32,9 +32,18 @@ stdenv.mkDerivation {
     emmake make install
   '';
 
-  # TODO add tests
+  checkPhase = ''
+    echo "================= run expat tests using deno ================="
+    echo "Using deno to execute the test"
+    export DENO_DIR="$PWD/tmp"
+    set -x
+    ${deno}/bin/deno eval 'import expat from "./tests/runtests.js"; await expat();'
+    set +x
+    echo "it seems to work! very good."
+    echo "================= /run expat tests using deno ================="
+  '';
 
   doCheck = true;
   nativeBuildInputs = [ emscripten clang_12 cmake pkg-config ];
-  buildInputs = [ ];
+  buildInputs = [ deno ];
 }

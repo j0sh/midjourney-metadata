@@ -46,18 +46,13 @@ stdenv.mkDerivation {
     emcc -O2 -s EMULATE_FUNCTION_POINTER_CASTS=1 test/example.c -DZ_SOLO \
       -L. libz.a -I . -s EXPORT_ES6=1 -s MODULARIZE=1 -s EXPORT_NAME=ZlibExample -s SINGLE_FILE=1  -o example.js
     echo "Using deno to execute the test"
-    ${deno}/bin/deno run ./example.js
+    ${deno}/bin/deno eval 'import zlib from "./example.js"; await zlib();'
     set +x
-    if [ $? -ne 0 ]; then
-      echo "test failed for some reason"
-      exit 1;
-    else
-      echo "it seems to work! very good."
-    fi
+    echo "it seems to work! very good."
     echo "================= /testing zlib using deno ================="
   '';
 
   doCheck = true;
   nativeBuildInputs = [ emscripten clang_12 pkg-config ];
-  buildInputs = [ ];
+  buildInputs = [ deno ];
 }
