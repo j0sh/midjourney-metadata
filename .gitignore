@@ -1,0 +1,7 @@
+.emcache
+
+# only typescript
+*.js
+
+# vim
+.swp

@@ -1,0 +1,1 @@
+deno run --allow-read reader.ts $1
