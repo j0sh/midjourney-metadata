@@ -8,7 +8,7 @@ let
   };
 in
 pkgs.mkShell {
-  packages = [ pkgs.deno expat2wasm zlib2wasm exiv2wasm pkgs.emscripten pkgs.clang_12 ];
+  packages = [ pkgs.deno expat2wasm zlib2wasm exiv2wasm pkgs.emscripten pkgs.clang_12 pkgs.jq ];
   nativeBuildInputs = [ pkgs.pkg-config ];
   shellHooks = ''
     mkdir -p ".emcache"

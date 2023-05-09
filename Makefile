@@ -1,9 +1,9 @@
 all: reader writer
 
-writer: writer.js
+writer: writer.js writer.ts
 	deno check writer.ts
 
-reader: reader.js
+reader: reader.js reader.ts
 	deno check reader.ts
 
 writer.js: writer.cpp

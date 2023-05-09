@@ -10,19 +10,34 @@
 #include <emscripten/val.h>
 #include <emscripten/bind.h>
 
-emscripten::val writer(std::string d)
+emscripten::val writer(std::string d, const emscripten::val &kv)
 try {
     auto sz = d.length();
     auto data = reinterpret_cast<const Exiv2::byte*>(d.data());
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(data, sz);
     assert(image.get() != 0);
 
-    // xmp data
+    // read any existing xmp data and register the midjourney namespace
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
     Exiv2::XmpData &xmpData = image->xmpData();
+    Exiv2::XmpProperties::registerNs("midjourneyNamespace", "midjourney");
 
-    xmpData["Xmp.dc.foo"] = "Rubber Ducky";
+    // read kv into xmp
+    const emscripten::val keys = emscripten::val::global("Object").call<emscripten::val>("keys", kv);
+    int length = keys["length"].as<int>();
+    for (int i = 0; i < length; ++i) {
+      const auto k = keys[i].as<std::string>();
+      const emscripten::val v = kv[k];
+      // TODO check for string type
+      if (v.typeOf().as<std::string>() != "string") {
+        std::cout << "skipping non-string value for key " << k << std::endl;
+        continue;
+      }
+      xmpData["Xmp." + k] = v.as<std::string>();
+    }
+
+    // write
     image->setXmpData(xmpData);
     image->writeMetadata();
 
