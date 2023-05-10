@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="jszip.min.js"></script>
+    <script src="a.out.js"></script>
+    <title>Midjourney Showcase Downloader</title>
+    <!--Additional elements for browsers and robots go here goes here-->
+  </head>
+  <body>
+    <!--Elements visible to users go here-->
+    <a id="downloader">Click to Download</a>
+    <script type="text/javascript">
+      window.addEventListener("DOMContentLoaded", async () => {
+        Module.onRuntimeInitialized = async () => {
+          const url = "https://midjourney.com/showcase/recent/";
+          const res = await fetch(url);
+          if (!res.ok) {
+            console.log("Error fetching", res)
+            return;
+          }
+          const html = await res.text();
+          const parser = new DOMParser();
+          const page = parser.parseFromString(html, "text/html");
+          const json = page.querySelector('#__NEXT_DATA__').innerHTML;
+          const jobs = JSON.parse(json).props.pageProps.jobs;
+          console.log(jobs);
+
+          // setup zip file
+          const ts = (new Date()).getTime();
+          const zip = new JSZip();
+          const name = "mj-community-showcase-"+ts;
+          const folder = zip.folder(name);
+          folder.file("jobs.json", JSON.stringify(jobs));
+
+          // setup wasm
+          const writer = Module.writer;
+
+          const manifest = ["jobs.json"];
+          const dlq = []
+          let i = 0;
+          for (const j of jobs) {
+            for await (let imgURL of j.image_paths) {
+              // todo bogus
+              imgURL = "out/0e2c22ef-6722-4c26-a042-82eb9d00a798.png";
+
+              const imgRes = await fetch(imgURL);
+              if (!imgRes.ok) {
+                console.log("Unable to download", j.id);
+                dlq.add(j.id+" "+imgRes.error);
+                continue;
+              }
+              const img = new Uint8Array(await imgRes.arrayBuffer());
+
+              // todo bogus
+              if (i > 0) continue;
+
+              const dotExt = "." + imgURL.split(".").at(-1);
+              const base = imgURL.split(".").at(-1);
+              const ext = j.image_paths.length === 1 ? dotExt : "_" + base;
+              const out = "out/" + j.id + ext;
+              const dc = {
+                "dc.publisher" : "Midjourney",
+                "dc.contributor": "Transfix Metadata Embed",
+                "dc.creator" : j.username,
+                "dc.date" : j.enqueue_time,
+                "dc.title" : j.full_command,
+                "dc.identifier" : j.id,
+                "dc.source" : j.reference_job_id,
+                "dc.subject" : j.prompt,
+                "midjourney.data" : JSON.stringify(j),
+                "xmp.BaseURL" : imgURL,
+                "xmp.CreateDate" : new Date().toISOString().replaceAll(/[TZ]/ig, ' ').trimEnd(),
+                "xmp.CreatorTool" : "Midjourney",
+              }
+              const p = writer(img, dc);
+              folder.file(out, p);
+              manifest.push(out);
+              console.log(i, "Wrote", p.length, "to", out);
+              i++;
+            }
+          }
+          if (dlq.length > 0) {
+            manifest.push("dlq.txt");
+            folder.file("dlq.txt", dlq.join("\n"));
+          }
+          folder.file("manifest.txt", manifest.join("\n"));
+
+          const blob = await zip.generateAsync({type:"blob"});
+          const btn = document.getElementById("downloader");
+          btn.href = URL.createObjectURL(blob);
+          btn.download = name;
+        };
+      });
+    </script>
+  </body>
+</html>

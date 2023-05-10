@@ -12,6 +12,9 @@ showcase: writer.js showcase.ts
 writer.js: writer.cpp
 	EM_CACHE=.emcache emcc -fexceptions $(shell pkg-config --cflags exiv2) $(shell pkg-config --libs exiv2 expat zlib) -lembind writer.cpp -s EXPORT_ES6=1 -s MODULARIZE=1 -s EXPORT_NAME=WriterMain -s SINGLE_FILE=1 -s INITIAL_MEMORY=33554432 -o writer.js
 
+a.out.wasm: writer.cpp
+	EM_CACHE=.emcache emcc -fexceptions $(shell pkg-config --cflags exiv2) $(shell pkg-config --libs exiv2 expat zlib) -lembind writer.cpp -s INITIAL_MEMORY=33554432
+
 reader.js: reader.cpp
 	EM_CACHE=.emcache emcc -fexceptions $(shell pkg-config --cflags exiv2) $(shell pkg-config --libs exiv2 expat zlib) -lembind reader.cpp -s EXPORT_ES6=1 -s MODULARIZE=1 -s EXPORT_NAME=ReaderMain -s SINGLE_FILE=1  -o reader.js
 
