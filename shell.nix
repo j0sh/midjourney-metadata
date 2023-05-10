@@ -8,9 +8,10 @@ let
   };
 in
 pkgs.mkShell {
-  packages = [ pkgs.deno expat2wasm zlib2wasm exiv2wasm pkgs.emscripten pkgs.clang_12 pkgs.jq ];
+  packages = [ pkgs.deno expat2wasm zlib2wasm exiv2wasm pkgs.emscripten pkgs.clang_12 pkgs.jq pkgs.htmlq pkgs.curl ];
   nativeBuildInputs = [ pkgs.pkg-config ];
   shellHooks = ''
     mkdir -p ".emcache"
+    export PATH="$HOME/.deno/bin:$PATH"
   '';
 }

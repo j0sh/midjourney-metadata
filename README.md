@@ -5,7 +5,7 @@ Never lose track of [Midjourney](http://midjourney.com) prompts again. Embed job
 ![Leprechaun mother and her three children guarding a pot full of gold on the irish seashore. painting by alan maley](https://user-images.githubusercontent.com/292510/235260517-9b288ebb-1d72-4d9a-84ba-cee477b30cf8.png "Leprechaun mother and her three children guarding a pot full of gold on the irish seashore. painting by alan maley")
 
 
-### Why? 
+### Why?
 
 People often share their MJ-generated images, but not the prompts. The Midjourney web UI will show most parts of prompts, but that gets lost if you download the image, unless extra effort is made to separately track the prompts. Moreover, there is usually other job metadata that can be relevant: user name, seed value, etc.
 
@@ -27,19 +27,19 @@ Current goal is to make this a (desktop) Chrome extension.
 - Embed and download single images
   - combo of mouse-over + right-click
   - mouse-over + hotkeys
-  
+
 Run 100% locally - JS + WASM
 
 ### MVP to Product:
 - [x] bash script to scrape MJ community page and embed metadata
-- [ ] Deno + wasm version of the script
+- [x] Deno + wasm version of the script
 - [ ] Chrome extension
 
 
 ### TODO
 - [x] Scrape MJ community page
 - [ ] Scrape MJ personal pages
-- [ ] wasm build for exiv2 (see  [4/28 standup notes](https://github.com/j0sh/daily-standup/blob/main/README.md#28-april-2023) for details)
+- [x] wasm build for exiv2 (see  [4/28 standup notes](https://github.com/j0sh/daily-standup/blob/main/README.md#28-april-2023) for details)
 - [ ] single image embedding + downloads
 - [ ] zip downloads ([jszip](https://stuk.github.io/jszip/)?)
 - [ ] chrome extension
