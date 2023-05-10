@@ -14,7 +14,7 @@ By embedding job parameters within the image metadata, the prompt can travel wit
 - Improves distribution: the image and the metadata are in one package
 - Improves accessibility: alt tags and similar can be made from prompts
 - Improves transparency: with more AI-generated content, provenance becomes more relevant. Where did this image come from, and how was it generated?
-- Reinforces community: The MJ ethos is open-by-default and sharing job parameters helps to reinforce that. 
+- Reinforces community: The MJ ethos is open-by-default and sharing job parameters helps to reinforce that.
 - Improves learning: studying the work of others is a great way to learn about how to use a system, and MJ prompts are no exception.
 - Unlocks other use cases: your imagination is the limit.
 
@@ -32,7 +32,7 @@ Run 100% locally - JS + WASM
 
 ### MVP to Product:
 - [x] bash script to scrape MJ community page and embed metadata
-- [x] Deno + wasm version of the script
+- [x] Deno + wasm version of the [script](https://github.com/j0sh/midjourney-metadata/blob/main/showcase.ts) ([driver](https://github.com/j0sh/midjourney-metadata/blob/main/showcase))
 - [ ] Chrome extension
 
 
@@ -41,6 +41,6 @@ Run 100% locally - JS + WASM
 - [ ] Scrape MJ personal pages
 - [x] wasm build for exiv2 (see  [4/28 standup notes](https://github.com/j0sh/daily-standup/blob/main/README.md#28-april-2023) for details)
 - [ ] single image embedding + downloads
-- [ ] zip downloads ([jszip](https://stuk.github.io/jszip/)?)
+- [x] zip downloads ([jszip](https://stuk.github.io/jszip/))
 - [ ] chrome extension
 - [ ] hotkey support

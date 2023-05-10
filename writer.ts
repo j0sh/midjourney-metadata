@@ -1,6 +1,6 @@
- import WriterInit from "./writer.js"
- import * as Path from "https://deno.land/std/path/mod.ts";
- import DiffusionInfo from "./cassatt.json" assert { type: "json" };
+import WriterInit from "./writer.js"
+import * as Path from "https://deno.land/std/path/mod.ts";
+import DiffusionInfo from "./cassatt.json" assert { type: "json" };
 
  // most these fields taken from "dublin core"
  const dc = {
